@@ -1,0 +1,91 @@
+{
+  "run_id": "smoke-001",
+  "started_at": "2026-10-13T09:39:27.832291Z",
+  "completed_at": "2026-10-13T09:49:32.932876Z",
+  "input_rows": 1000,
+  "expected_count": 1000,
+  "emitted_envelopes": 1000,
+  "invalid_inputs": [],
+  "resumed_profiles": 0,
+  "profiles_fetched_this_run": 1000,
+  "time_budget_s": null,
+  "companies_with_budget_exhausted_modules": 0,
+  "companies_cut_off": 0,
+  "modules": [
+    "registry",
+    "accounting_obligation",
+    "registry_live",
+    "financials",
+    "roles",
+    "group",
+    "locations",
+    "website",
+    "hiring",
+    "public_activity"
+  ],
+  "registry": {
+    "registry_snapshot_sha256": "5b0df27c5567a655320b8dfb8975049b76c46ba93d748a8a763f8db7050b7862",
+    "registry_rows_scanned": 1177860,
+    "requested": 1000,
+    "selected": 995,
+    "missing_from_snapshot": [
+      "928987728",
+      "982170931",
+      "931031333",
+      "912695875",
+      "920444040"
+    ],
+    "registry_source": "bulk_snapshot"
+  },
+  "operations": {
+    "requests": 5635,
+    "bytes": 69885567,
+    "p50_ms": 786,
+    "p95_ms": 1315,
+    "third_party_cost_usd": 0.0,
+    "runtime_s": 605.7
+  },
+  "validation": {
+    "passed": true,
+    "checks": {
+      "exact_expected_count": true,
+      "unique_organisation_numbers": true,
+      "all_entity_states_terminal": true,
+      "all_module_states_terminal": true,
+      "zero_silent_drops": true
+    },
+    "invalid_states": [],
+    "contract_warnings": [],
+    "contract_warning_count": 0
+  },
+  "llm": {
+    "llm_enabled": false,
+    "llm_disabled_reason": "429 account has no credits/quota left (add credits or use the key Builderr supplies)",
+    "provider_host": "generativelanguage.googleapis.com",
+    "model": "gemini-3.8-flash",
+    "key_source": "SIGNALPOST_LLM_API_KEY",
+    "llm_calls": 12,
+    "llm_successful_calls": 0,
+    "fallback_reasons": {
+      "api-error": 12,
+      "circuit-open": 988
+    },
+    "estimated_cost_usd": 0.0,
+    "soft_limit_usd": 6.5,
+    "hard_limit_usd": 8.0,
+    "batch_size": 1000,
+    "within_soft_limit": true,
+    "within_hard_limit": true,
+    "max_calls": 1100
+  },
+  "nav_job_feed": {
+    "requests": 5,
+    "pages_read": 0,
+    "ads_indexed": 0,
+    "detail_fetches": 0,
+    "matches": 0,
+    "error": "partial index after 0 pages: TimeoutError: The read operation timed out [stage: feed page]",
+    "enabled": true
+  },
+  "notes": []
+}
