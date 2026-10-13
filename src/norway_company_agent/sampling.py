@@ -24,8 +24,7 @@ def normalize_row(row: dict[str, str]) -> dict[str, Any]:
     employees_raw = _first(row, "antallAnsatte", "Antall ansatte")
     has_employees = _first(row, "harRegistrertAntallAnsatte", "Har registrert antall ansatte").strip().casefold()
     try:
-        # Brreg only states a headcount when harRegistrertAntallAnsatte is true. Never turn "not registered"
-        # into a number (least of all 0): a missing value stays None.
+
         employees = int(employees_raw) if employees_raw and has_employees != "false" else None
     except ValueError:
         employees = None

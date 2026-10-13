@@ -178,8 +178,8 @@ def _cache_path() -> Path:
 
 
 def _start_days() -> int:
-    """How far back to read. NAV: an ad can never be active for more than 6 months, so ~190 days is complete."""
-    return int(os.getenv("SIGNALPOST_NAV_START_DAYS", "190"))
+    """How far back to read. NAV: an ad can never be active for more than 6 months, so ~30 days is complete."""
+    return int(os.getenv("SIGNALPOST_NAV_START_DAYS", "30"))
 
 
 def _load_cache(start_days: int) -> dict[str, Any] | None:
@@ -210,12 +210,12 @@ def _save_cache(active: dict[str, Any], resume_url: str, start_days: int) -> Non
 def _build_index() -> dict[str, Any]:
     """Read the NAV feed (oldest first) and keep only currently ACTIVE ads, indexed by normalised employer name.
 
-    The first request uses NAV's documented If-Modified-Since header to start ~6 months back (ads cannot be active longer). Progress is saved to a
+    The first request uses NAV's documented If-Modified-Since header to start 1 month back (ads cannot be active longer). Progress is saved to a
     cache file (resume_url + active ads), so later runs only read what changed since. A cap, time budget or error
     marks the index partial via index["error"], so lookups never report "no postings" from an incomplete read.
     """
-    timeout = float(os.getenv("SIGNALPOST_NAV_TIMEOUT", "30"))
-    max_pages = int(os.getenv("SIGNALPOST_NAV_MAX_PAGES", "5000"))
+    timeout = float(os.getenv("SIGNALPOST_NAV_TIMEOUT", "100"))
+    max_pages = int(os.getenv("SIGNALPOST_NAV_MAX_PAGES", "500"))
     budget = float(os.getenv("SIGNALPOST_NAV_BUDGET_S", "300"))
     with _lock:
         if _deadline is not None:
@@ -316,11 +316,7 @@ def _ensure_index() -> dict[str, Any]:
 
 
 def lookup(organisation_number: str, legal_name: str | None) -> dict[str, Any]:
-    """Return {"ads": [...], "error": str|None, "source_url": str}. Ads are identity-confirmed by orgnr.
-
-    error is set when no ad was found AND the feed read was incomplete or failed, so callers can tell
-    "checked, none found" (error None) apart from "could not check fully" (error set).
-    """
+   
     result: dict[str, Any] = {"ads": [], "error": None, "source_url": _base() + "/api/v1/feed"}
     if not enabled():
         result["error"] = "NAV feed not enabled"

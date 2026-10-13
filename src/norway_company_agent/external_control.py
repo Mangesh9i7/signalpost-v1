@@ -199,11 +199,6 @@ def run_company_control(
         )
         adaptive_history.append(iterations[-1])
         previous = current
-        # Evaluate every strategy exactly once. Early stopping made the final score
-        # depend on strategy order: adding a weak connector could change which
-        # already-collected evidence was visible when a company crossed the target.
-        # The controller still learns and orders acquisition, but the scorecard must
-        # judge the complete frozen evidence set consistently.
     return {
         "organisation_number": profile.get("organisation_number"),
         "company_name": profile.get("name"),

@@ -105,9 +105,7 @@ def get_cost_stats() -> dict[str, Any]:
         }
 
 
-# ----------------------------------------------------------------------------
 # Provider configuration
-# ----------------------------------------------------------------------------
 _PLACEHOLDER = re.compile(r"(your[-_ ]|real[-_ ]?key|changeme|placeholder|example|xxxx|<.*>)", re.I)
 
 

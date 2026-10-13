@@ -42,8 +42,6 @@ SIGNAL_TYPES = {
     "buzz_metrics",
 }
 
-# “Experimental” means the connector can be benchmarked locally, but its output cannot be
-# published or earn competition points until the organiser accepts its rights/reliability path.
 PUBLISHABLE_ACQUISITION_MODES = {
     "official_api",
     "licensed_api",

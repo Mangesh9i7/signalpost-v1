@@ -1,11 +1,3 @@
-"""Hiring and public-activity signals read from already-fetched company-site HTML.
-
-Pure functions: no network, no randomness. Everything returned is *observed on the page*:
-a job posting is only reported if the page marks it up (schema.org JobPosting) or lists it
-under the careers section; a public-activity item needs a title AND a parseable date.
-Nothing here is ever inferred or invented.
-"""
-
 from __future__ import annotations
 
 import email.utils

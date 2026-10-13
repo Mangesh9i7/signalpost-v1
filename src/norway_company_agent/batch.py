@@ -27,7 +27,6 @@ TERMINAL_STATES = {
     "source_error",
     "budget_exhausted",
     "submission_error",
-    # Official Signalpost availability states
     "not_available",
     "ambiguous",
     "failed",
