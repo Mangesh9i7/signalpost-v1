@@ -38,8 +38,8 @@ uv run python scripts/run_competition_batch.py \
   # 1.6 Human-readable viewer
 
 uv run python build_signalpost_viewer.py \
-  --input out/smoke-envelopes.jsonl \
-  --report out/smoke-report.json \
+  --input out/official-envelopes.jsonl \
+  --report out/official-report.json \
   --output out/smoke-viewer.html
 
 ```
