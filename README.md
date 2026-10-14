@@ -33,11 +33,23 @@ uv run python scripts/run_competition_batch.py \
 
 ```
 
+```bash
+
+  # 1.6 Human-readable viewer
+
+uv run python build_signalpost_viewer.py \
+  --input out/smoke-envelopes.jsonl \
+  --report out/smoke-report.json \
+  --output out/smoke-viewer.html
+
+```
+
 Replace the three placeholders before running (do not type the `<` `>` characters):
 
 - `<official-batch.jsonl>`: the batch file Builderr supplies.
 - `<date>`: any unique label, for example `official-2026-10-13`.
 - `<N>`: the number of companies in that batch.
+- Cheak out folder for the output
 
 Exit code `0` means every input row received a valid terminal envelope. If the run is interrupted, rerun the same
 command with `--resume` added.

@@ -14,15 +14,13 @@ dependencies = [
   "tldextract>=5.3,<6",
   "trafilatura>=2.0,<3",
   "python-dotenv>=1.0,<2",
+  "scrapy>=2.13,<3",
+  "scrapy-playwright>=0.0.44,<1",
 ]
 
 [project.optional-dependencies]
 llm = [
   "openai>=1.40,<2",
-]
-crawler = [
-  "scrapy>=2.13,<3",
-  "scrapy-playwright>=0.0.44,<1",
 ]
 
 sentiment = [

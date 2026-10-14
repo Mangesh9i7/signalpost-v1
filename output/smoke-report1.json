@@ -1,0 +1,85 @@
+{
+  "run_id": "smoke-001",
+  "started_at": "2026-10-13T12:43:26.119897Z",
+  "completed_at": "2026-10-13T12:47:09.406482Z",
+  "input_rows": 100,
+  "expected_count": 100,
+  "emitted_envelopes": 100,
+  "invalid_inputs": [],
+  "resumed_profiles": 0,
+  "profiles_fetched_this_run": 100,
+  "time_budget_s": null,
+  "companies_with_budget_exhausted_modules": 0,
+  "companies_cut_off": 0,
+  "modules": [
+    "registry",
+    "accounting_obligation",
+    "registry_live",
+    "financials",
+    "roles",
+    "group",
+    "locations",
+    "website",
+    "hiring",
+    "public_activity"
+  ],
+  "registry": {
+    "registry_snapshot_sha256": "5b0df27c5567a655320b8dfb8975049b76c46ba93d748a8a763f8db7050b7862",
+    "registry_rows_scanned": 1173396,
+    "requested": 100,
+    "selected": 100,
+    "missing_from_snapshot": [],
+    "registry_source": "bulk_snapshot"
+  },
+  "operations": {
+    "requests": 579,
+    "bytes": 1517096,
+    "p50_ms": 769,
+    "p95_ms": 1093,
+    "third_party_cost_usd": 0.0,
+    "runtime_s": 223.3
+  },
+  "validation": {
+    "passed": true,
+    "checks": {
+      "exact_expected_count": true,
+      "unique_organisation_numbers": true,
+      "all_entity_states_terminal": true,
+      "all_module_states_terminal": true,
+      "zero_silent_drops": true
+    },
+    "invalid_states": [],
+    "contract_warnings": [],
+    "contract_warning_count": 0
+  },
+  "llm": {
+    "llm_enabled": false,
+    "llm_disabled_reason": "429 account has no credits/quota left (add credits or use the key Builderr supplies)",
+    "provider_host": "generativelanguage.googleapis.com",
+    "model": "gemini-3.8-flash",
+    "key_source": "SIGNALPOST_LLM_API_KEY",
+    "llm_calls": 8,
+    "llm_successful_calls": 0,
+    "fallback_reasons": {
+      "api-error": 8,
+      "circuit-open": 92
+    },
+    "estimated_cost_usd": 0.0,
+    "soft_limit_usd": 6.5,
+    "hard_limit_usd": 8.0,
+    "batch_size": 100,
+    "within_soft_limit": true,
+    "within_hard_limit": true,
+    "max_calls": 1100
+  },
+  "nav_job_feed": {
+    "requests": 65,
+    "pages_read": 64,
+    "ads_indexed": 8470,
+    "detail_fetches": 0,
+    "matches": 0,
+    "error": "partial index: only the last 30 days of the feed were read (an ad can be active for up to 6 months)",
+    "enabled": true
+  },
+  "notes": []
+}

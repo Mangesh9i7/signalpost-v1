@@ -1,13 +1,3 @@
-#!/usr/bin/env python3
-"""Run the Signalpost company research agent on a batch of Norwegian organisation numbers.
-
-One command, one terminal result envelope per input company:
-
-    uv run python scripts/run_competition_batch.py --organisations batch.jsonl --output out/envelopes.jsonl
-
-Everything else is optional (see --help). The run never aborts because of a single bad company, a missing
-bulk file or an exhausted time budget: every input row still gets an envelope.
-"""
 from __future__ import annotations
 
 import argparse
@@ -212,16 +202,24 @@ def main(argv: list[str] | None = None) -> int:
                 record_failure(profile, "public_activity", exc)
 
         # 4. Hiring: verified website and/or the NAV feed (orgnr-confirmed)
+      
         if "hiring" in requested_modules and "hiring" not in profile["evidence"]:
             if out_of_time():
-                mark_unfinished(profile, "budget_exhausted", "Run time budget reached before the hiring step")
+                mark_unfinished(
+                    profile,
+                    "budget_exhausted",
+                    "Run time budget reached before the hiring step",
+                )
             else:
                 try:
-                    profile["evidence"]["hiring"] = ensure_hiring_placeholder(profile)
+                    hiring_record = ensure_hiring_placeholder(profile)
+
+                    if hiring_record is not None:
+                        profile["evidence"]["hiring"] = hiring_record
+
                 except Exception as exc:  # noqa: BLE001
                     record_failure(profile, "hiring", exc)
 
-        # 5. Evidence-grounded synthesis (LLM optional; never raises; budget enforced inside)
         return finish(profile, started, metrics, website_metrics)
 
     # --- resume ------------------------------------------------------------------------------------------

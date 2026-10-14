@@ -1266,15 +1266,13 @@ dependencies = [
     { name = "pydantic" },
     { name = "pypdf" },
     { name = "python-dotenv" },
+    { name = "scrapy" },
+    { name = "scrapy-playwright" },
     { name = "tldextract" },
     { name = "trafilatura" },
 ]
 
 [package.optional-dependencies]
-crawler = [
-    { name = "scrapy" },
-    { name = "scrapy-playwright" },
-]
 llm = [
     { name = "openai" },
 ]
@@ -1294,14 +1292,14 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.12,<3" },
     { name = "pypdf", specifier = ">=6,<7" },
     { name = "python-dotenv", specifier = ">=1.0,<2" },
-    { name = "scrapy", marker = "extra == 'crawler'", specifier = ">=2.13,<3" },
-    { name = "scrapy-playwright", marker = "extra == 'crawler'", specifier = ">=0.0.44,<1" },
+    { name = "scrapy", specifier = ">=2.13,<3" },
+    { name = "scrapy-playwright", specifier = ">=0.0.44,<1" },
     { name = "tldextract", specifier = ">=5.3,<6" },
     { name = "torch", marker = "extra == 'sentiment'", specifier = ">=2.5,<3" },
     { name = "trafilatura", specifier = ">=2.0,<3" },
     { name = "transformers", marker = "extra == 'sentiment'", specifier = ">=4.51,<5" },
 ]
-provides-extras = ["llm", "crawler", "sentiment"]
+provides-extras = ["llm", "sentiment"]
 
 [[package]]
 name = "numpy"

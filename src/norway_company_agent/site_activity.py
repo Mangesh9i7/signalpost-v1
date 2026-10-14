@@ -155,23 +155,6 @@ def _posting_belongs_to(posting: dict[str, Any], legal_name: Any) -> bool:
         return True  # nothing to compare: the posting sits on the verified company site
     return bool(set(employer) & set(core))
 
-
-def _nav_reason(error: Any) -> str:
-    """Short plain-language reason for an incomplete NAV read (the raw exception text stays in the run report)."""
-    text = str(error or "").lower()
-    if "timed out" in text or "timeout" in text:
-        return "feed did not respond in time"
-    if "time budget" in text or "page cap" in text:
-        return "only part of the feed could be read within the time limit"
-    if "only the last" in text:
-        return "only the most recent part of the feed was read"
-    if "401" in text or "403" in text:
-        return "feed access token was rejected"
-    if "429" in text:
-        return "feed rate limit reached"
-    return "feed could not be read"
-
-
 def extract_hiring(profile: dict[str, Any]) -> dict[str, Any]:
     """Return a hiring evidence record: real postings when observable, otherwise an honest reason."""
     checked: list[str] = []
@@ -180,12 +163,20 @@ def extract_hiring(profile: dict[str, Any]) -> dict[str, Any]:
     nav_url = None
 
     # Official, identity-exact job feed (only when the user enabled it)
+    
     if nav_jobs.enabled():
-        nav = nav_jobs.lookup(str(profile.get("organisation_number") or ""), profile.get("name"))
-        nav_error, nav_url = nav.get("error"), nav.get("source_url")
-        if not nav_error or nav["ads"]:
-            checked.append("NAV Arbeidsplassen feed")  # only claim "checked" when the feed was read completely
-        postings += nav["ads"]
+        nav = nav_jobs.lookup(
+            profile["organisation_number"],
+            profile.get("name", ""),
+        )
+        nav_error = nav.get("error")
+        nav_url = nav.get("source_url")
+
+        # Only use NAV results when the feed returned successfully.
+        # A timeout is not evidence that the company has no openings.
+        if not nav_error:
+            checked.append("NAV Arbeidsplassen feed")
+            postings.extend(nav.get("ads") or [])
 
     verified = _verified_site(profile)
     careers_url = no_openings = None
@@ -265,21 +256,6 @@ def extract_hiring(profile: dict[str, Any]) -> dict[str, Any]:
                        note=f"A careers page/portal exists ({where}) but no individual openings could be read from it",
                        value={"careers_page": careers_url, "ats_links": ats[:3], "checked": checked},
                        source_url=where, content_sha256=page_sha.get(str(where)) or sha, source_class="company_owned")
-    if not checked:
-        reason = (f"the NAV job feed could not be fully read ({_nav_reason(nav_error)})" if nav_error
-                  else "the NAV job feed is not enabled")
-        return _record("hiring", "not_available", "permitted_jobs",
-                       note=f"Not checked: no verified company website and {reason}")
-    note = "Checked " + " and ".join(checked) + ": no job postings found"
-    value: dict[str, Any] = {"checked": checked}
-    if nav_error:
-        # NAV was not fully read, so "0 open positions" would be a claim we cannot support
-        note += f"; NAV job feed NOT fully checked ({_nav_reason(nav_error)})"
-        value["nav_incomplete"] = _nav_reason(nav_error)
-    else:
-        value["open_positions"] = 0
-    return _record("hiring", "not_available", "permitted_jobs", note=note, value=value)
-
 
 def ensure_hiring_placeholder(profile: dict[str, Any]) -> dict[str, Any]:
     """Backward-compatible name used by the batch runner; now does real extraction."""
